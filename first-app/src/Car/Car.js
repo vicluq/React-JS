@@ -5,11 +5,22 @@ import _ from "lodash"; //with webpack it works but not with gulp ==> wpck conve
 // on our App, it will come here and React will convert it into React.createElement()
 // it happens because the component always returns the JSX wich will be converted
 
-const Car = () => {
+const deleteHandler = (event) => {
+  const button = event.target;
+  button.parentNode.style.display = "none";
+};
+
+const Car = (props) => {
   return (
     <div className="Car">
-      <h2>Honda Civic - ID: {_.random(10 ** 4, 1, false)}</h2>
-      <p>From 2013, Made by Honda</p>
+      <h2>{props.name}</h2>
+      <p>
+        From {props.fabYear}, Made by {props.brand}
+      </p>
+      {props.children}
+      <button onClick={deleteHandler} className="deleteCarBut">
+        Delete
+      </button>
     </div>
   ); //only one root element for each component
 };
