@@ -1,0 +1,31 @@
+.UserOutput {
+  margin: 0px auto 20px;
+  width: 1200px;
+  padding: 8px;
+  text-align: start;
+  border-bottom: 3px solid skyblue;
+  border-right: 3px solid skyblue;
+  box-shadow: 2px 3px 2px #00000047;
+}
+
+.text {
+  font-size: 18px;
+  color: rgb(64, 187, 187);
+}
+
+.text::first-letter {
+  font-size: 36px;
+}
+
+.username {
+  width: 210px;
+  padding: 5px;
+  border: 2px solid #333;
+  opacity: 70%;
+  border-radius: 3px;
+}
+
+.username span {
+  font-weight: 600;
+  font-style: italic;
+}
