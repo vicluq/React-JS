@@ -5,14 +5,16 @@ import _ from "lodash"; //with webpack it works but not with gulp ==> wpck conve
 // on our App, it will come here and React will convert it into React.createElement()
 // it happens because the component always returns the JSX wich will be converted
 
-const deleteHandler = (event) => {
-  const button = event.target;
-  button.parentNode.style.display = "none";
-};
-
 const Car = (props) => {
+  const deleteHandler = (event) => {
+    //with react is common to put function inside functions -> HOOKS
+    const button = event.target;
+    button.parentNode.style.display = "none";
+  };
+
   return (
-    <div className="Car">
+    <div className="Car" onClick={props.click}>
+      {/*nos componentes Car que eu não passar o att click, isso vai ser nulo, ou seja, não vai aplicar*/}
       <h2>{props.name}</h2>
       <p>
         From {props.fabYear}, Made by {props.brand}

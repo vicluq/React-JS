@@ -1,20 +1,36 @@
 import React, { Component } from "react";
-import "./App.css"; //import App content. webpack will access this because i've imported the App on my index.js (entry)
 import lodash from "lodash";
+
+import "./App.css"; //import App content. webpack will access this because i've imported the App on my index.js (entry)
 import Car from "./Car/Car";
-//App is a big component with lots of other components inside, so at the end, React will render a huge component
 
 class App extends Component {
+  //nao tem para que usar props muito, a não ser que eu queira passar algo no ReactDOM.render
+
   state = {
     cars: [
       { name: "Honda Civic", brand: "Honda", fabYear: "2013" },
       { name: "Honda Fit", brand: "Honda", fabYear: "2014" },
       { name: "Sienna", brand: "Fiat", fabYear: "2012" },
     ],
+    state2:
+      "this won´t change/be substituted if i call setState, only if i was using hooks -> useState",
+    counter: 0,
   };
 
-  changeHandler = (event) => {
-    this.setState({ cars: lodash.shuffle(this.state.cars) });
+  counter() {
+    this.setState({ counter: ++this.state.counter });
+  }
+
+  changeHandler = (...params) => {
+    this.setState({
+      cars: [
+        { name: "Honda Civic", brand: "Honda", fabYear: params[0] },
+        { name: "Honda Fit", brand: "Honda", fabYear: params[1] },
+        { name: "Sienna", brand: "Fiat", fabYear: params[2] },
+      ],
+    });
+    console.log(this.state);
   };
 
   render() {
@@ -35,6 +51,7 @@ class App extends Component {
           name={this.state.cars[1].name}
           brand={this.state.cars[1].brand}
           fabYear={this.state.cars[1].fabYear}
+          click={this.changeHandler}
         />
         <Car
           name={this.state.cars[2].name}
@@ -42,7 +59,9 @@ class App extends Component {
           fabYear={this.state.cars[2].fabYear}
         />
 
-        <button onClick={this.changeHandler}>Some Event</button>
+        <button onClick={this.changeHandler.bind(null, 2020, 2017, 2019)}>
+          Some Event
+        </button>
       </div>
     );
   }
@@ -52,3 +71,5 @@ export default App;
 
 // Here I will import all the main components and those will import other components
 // that they use, as well
+
+//FetchData => export data to other file and build component giving to the state the data
