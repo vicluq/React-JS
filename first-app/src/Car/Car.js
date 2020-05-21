@@ -1,4 +1,5 @@
 import React from "react";
+import "./Car.css";
 import _ from "lodash"; //with webpack it works but not with gulp ==> wpck converts to browser lang
 
 // need because when code finds this component imported
@@ -20,6 +21,8 @@ const Car = (props) => {
         From {props.fabYear}, Made by {props.brand}
       </p>
       {props.children}
+      <input type="text" required onInput={props.input} value={props.name} />
+
       <button onClick={deleteHandler} className="deleteCarBut">
         Delete
       </button>

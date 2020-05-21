@@ -3,10 +3,19 @@ import lodash from "lodash";
 
 import "./App.css"; //import App content. webpack will access this because i've imported the App on my index.js (entry)
 import Car from "./Car/Car";
+import Counter from "./Counter/Counter";
 
 class App extends Component {
   //nao tem para que usar props muito, a não ser que eu queira passar algo no ReactDOM.render
-
+  constructor() {
+    super();
+    this.Buttonstyle = {
+      padding: "5px",
+      backgroundColor: "skyblue",
+      border: "none",
+      cursor: "pointer",
+    };
+  }
   state = {
     cars: [
       { name: "Honda Civic", brand: "Honda", fabYear: "2013" },
@@ -19,8 +28,21 @@ class App extends Component {
   };
 
   counter() {
-    this.setState({ counter: ++this.state.counter });
+    //this here refers to global and not to the Class because it is a normal function
+    this.setState((previousState) => {
+      return { ...previousState, counter: previousState.counter + 1 };
+    });
   }
+
+  inputHandler = (event) => {
+    this.setState({
+      cars: [
+        { name: event.target.value, brand: "Honda", fabYear: "2013" },
+        { name: "Fit", brand: "Honda", fabYear: "2014" },
+        { name: "Sienna", brand: "Fiat", fabYear: "2012" },
+      ],
+    });
+  };
 
   changeHandler = (...params) => {
     this.setState({
@@ -34,6 +56,13 @@ class App extends Component {
   };
 
   render() {
+    // const Buttonstyle = {
+    //   padding: "5px",
+    //   backgroundColor: "skyblue",
+    //   border: "none",
+    //   cursor: "pointer",
+    // };
+
     return (
       <div className="App">
         <h1>
@@ -43,25 +72,33 @@ class App extends Component {
           name={this.state.cars[0].name}
           brand={this.state.cars[0].brand}
           fabYear={this.state.cars[0].fabYear}
+          input={this.inputHandler}
         >
-          <p>Esse carro é o melhor</p>
+          {/* <p>Esse carro é o melhor</p> */}
           {/* se no componente Car eu não mandar exibir props.children, se um tiver ele não exibe */}
         </Car>
         <Car
           name={this.state.cars[1].name}
           brand={this.state.cars[1].brand}
           fabYear={this.state.cars[1].fabYear}
-          click={this.changeHandler}
+          click={this.changeHandler.bind(this, 2020, 2017, 2019)}
         />
         <Car
           name={this.state.cars[2].name}
           brand={this.state.cars[2].brand}
           fabYear={this.state.cars[2].fabYear}
         />
-
-        <button onClick={this.changeHandler.bind(null, 2020, 2017, 2019)}>
-          Some Event
+        <button
+          style={this.Buttonstyle}
+          onClick={this.changeHandler.bind(null, 2020, 2017, 2019)}
+        >
+          Change Year
         </button>
+
+        <Counter
+          value={this.state.counter}
+          click={this.counter.bind(this, null)}
+        />
       </div>
     );
   }

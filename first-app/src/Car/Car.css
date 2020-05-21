@@ -1,0 +1,26 @@
+.Car {
+  margin: 10px auto;
+  padding: 10px;
+  background-color: rgb(52, 71, 71);
+  color: white;
+  width: 200px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 2px 2px 4px 2px rgba(75, 72, 72, 0.123);
+  display: flex;
+  flex-direction: column;
+}
+
+.Car > button {
+  background-color: white;
+  width: 100px;
+  align-self: center;
+  margin: 10px 0 0;
+  border: none;
+}
+
+.Car > input {
+  width: 100px;
+  align-self: center;
+  border: none;
+}
