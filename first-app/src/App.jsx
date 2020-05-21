@@ -13,7 +13,7 @@ class App extends Component {
     this.setState({ username: event.target.value });
     console.log(this.state);
   };
-  // {..state, ...newState}
+  // {..state, ...newState} --> class comp does that. with hooks you have to do it manually
   render() {
     return (
       <div className="App">
@@ -35,6 +35,7 @@ class App extends Component {
 }
 
 export default App;
+
 
 // Here I will import all the main components and those will import other components
 // that they use, as well
