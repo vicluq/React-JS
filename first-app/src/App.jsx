@@ -11,15 +11,13 @@ class App extends Component {
 
   changeUsernameHandler = (event) => {
     this.setState({ username: event.target.value });
-    console.log(this.state);
+    console.log(this.state, this.props);
   };
   // {..state, ...newState} --> class comp does that. with hooks you have to do it manually
   render() {
     return (
       <div className="App">
-        <h1>
-          This is my first <mark>React Js</mark> Assignment
-        </h1>
+        <h1 className="main-title">User Posts</h1>
         <UserInput
           changeUsername={this.changeUsernameHandler}
           username={this.state.username}
@@ -35,7 +33,6 @@ class App extends Component {
 }
 
 export default App;
-
 
 // Here I will import all the main components and those will import other components
 // that they use, as well

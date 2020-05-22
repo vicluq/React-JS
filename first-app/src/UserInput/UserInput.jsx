@@ -15,7 +15,7 @@ const userInput = (props) => {
 
     label: {
       margin: "0 10px 0 0",
-      color: "#333",
+      color: "#fff",
     },
 
     input: {
