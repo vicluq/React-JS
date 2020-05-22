@@ -1,12 +1,52 @@
 import React, { Component } from "react";
+import lodash from "lodash";
 import "./App.css";
-import User from "./User/User";
+import Validation from "./Validation/Validation";
+import CharComponent from "./CharComponent/CharComponent";
 
 class App extends Component {
-  state = {};
+  state = {
+    word: "null",
+    wordlength: 4,
+  };
+
+  changeTextHandler = (event) => {
+    this.setState({
+      word: event.target.value,
+      wordlength: event.target.value.length,
+    });
+  };
 
   render() {
-    return <div className="App"></div>;
+    const charComps = (
+      <div>
+        {this.state.word.split("").map((char) => {
+          return (
+            <CharComponent
+              key={`${char}${lodash.random(1, 1000, false)}`}
+              char={char}
+            />
+          );
+        })}
+      </div>
+    );
+
+    return (
+      <div className="App">
+        <h1>PLAYING WITH WORDS!</h1>
+        <div className="textLengthInput">
+          <label htmlFor="textLength">Text Length</label>
+          <input id="textLength" disabled value={this.state.wordlength} />
+        </div>
+        <div className="textRealated">
+          <p>{this.state.word}</p>
+          <label htmlFor="textLength">Write something else</label>
+          <input onChange={this.changeTextHandler} id="textLength" />
+        </div>
+        <Validation wordLength={this.state.wordlength} />
+        {charComps}
+      </div>
+    );
   }
 }
 
