@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import User from "./Users/Users";
+import User from "./User/User";
 
 class App extends Component {
   state = {
@@ -33,12 +33,10 @@ class App extends Component {
   };
 
   render() {
-    return (
-      <div className="App">
-        <h1>Working with conditional render and list render!</h1>
-        <button onClick={this.displayUsersHandler}>
-          {this.state.displayUsers ? "Close Users List" : "Open Users List"}
-        </button>
+    let users = null;
+
+    if (this.state.displayUsers) {
+      users = (
         <div className="users">
           {this.state.displayUsers
             ? this.state.users.map((user) => (
@@ -51,6 +49,18 @@ class App extends Component {
               ))
             : null}
         </div>
+      );
+    } else {
+      users = null;
+    }
+
+    return (
+      <div className="App">
+        <h1>Working with conditional render and list render!</h1>
+        <button onClick={this.displayUsersHandler}>
+          {this.state.displayUsers ? "Close Users List" : "Open Users List"}
+        </button>
+        {users}
       </div>
     );
   }
