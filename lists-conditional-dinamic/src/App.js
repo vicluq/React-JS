@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import lodash from "lodash";
 import "./App.css";
 import User from "./User/User";
+import Radium from "radium";
 // import Validation from "./Validation/Validation";
 // import CharComponent from "./CharComponent/CharComponent";
 
@@ -53,10 +54,20 @@ class App extends Component {
   };
 
   render() {
-    const buttonColor = {
+    const buttonStyle = {
       // Button style
-      backgroundColor: "#0f2",
+      width: "130px",
+      height: "30px",
+      backgroundColor: "#0f0",
       color: "#333",
+      transition: "all 0.3s",
+      border: "none",
+      ":hover": {
+        backgroundColor: "#090",
+        cursor: "pointer",
+        border: "2px solid black",
+        width: "150px",
+      },
     };
 
     const theme = this.state.darkTheme ? "dark" : "light"; //App theme
@@ -74,12 +85,19 @@ class App extends Component {
                   email={user.email}
                   click={this.deleteUserHandler.bind(this, index)}
                   changeUN={this.changeUserHandler.bind(this, index)}
+                  theme={theme}
                 />
               ))
             : null}
         </div>
       );
-      buttonColor.backgroundColor = "#f50";
+      buttonStyle.backgroundColor = "#f50";
+      buttonStyle[":hover"] = {
+        backgroundColor: "#c70900",
+        cursor: "pointer",
+        border: "2px solid black",
+        width: "150px",
+      };
     } else {
       users = null;
     }
@@ -92,16 +110,18 @@ class App extends Component {
         <button onClick={this.themeHandler}>
           Switch to {this.state.darkTheme ? "Light" : "Dark"} Theme
         </button>
-        <button onClick={this.displayUsersHandler} style={buttonColor}>
-          {this.state.displayUsers ? "Close Users List" : "Open Users List"}
-        </button>
-        {users}
+        <div className={`user-list ${theme}`}>
+          <button onClick={this.displayUsersHandler} style={buttonStyle}>
+            {this.state.displayUsers ? "Close Users List" : "Open Users List"}
+          </button>
+          {users}
+        </div>
       </div>
     );
   }
 }
 
-export default App;
+export default Radium(App);
 // class App extends Component {
 //   state = {
 //     word: "null",

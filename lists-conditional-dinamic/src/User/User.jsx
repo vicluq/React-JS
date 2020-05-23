@@ -4,7 +4,7 @@ import "./User.css";
 class User extends Component {
   render() {
     return (
-      <div id={this.props.id} className="user">
+      <div id={this.props.id} className={`user ${this.props.theme}`}>
         <span>id: {this.props.id} </span>
         <h2>username: {this.props.username}</h2>
         <h3>Email: {this.props.email}</h3>
