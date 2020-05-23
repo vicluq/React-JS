@@ -17,14 +17,22 @@ class App extends Component {
     });
   };
 
+  deleteLetterHandler = (index) => {
+    //O índex vai dizer quem deve sair, pois cada div Char vai enviar um index
+    const word = [...this.state.word];
+    word.splice(index, 1);
+    this.setState({ word: word.join(""), wordlength: word.length });
+  };
+
   render() {
     const charComps = (
       <div>
-        {this.state.word.split("").map((char) => {
+        {this.state.word.split("").map((char, index) => {
           return (
             <CharComponent
-              key={`${char}${lodash.random(1, 1000, false)}`}
+              key={`${char}${lodash.random(1, 1000000, false)}`}
               char={char}
+              click={this.deleteLetterHandler.bind(this, index)}
             />
           );
         })}
@@ -38,8 +46,8 @@ class App extends Component {
           <label htmlFor="textLength">Text Length</label>
           <input id="textLength" disabled value={this.state.wordlength} />
         </div>
+        <p>{this.state.word}</p>
         <div className="textRealated">
-          <p>{this.state.word}</p>
           <label htmlFor="textLength">Write something else</label>
           <input onChange={this.changeTextHandler} id="textLength" />
         </div>

@@ -1,9 +1,13 @@
 import React from "react";
+import "./Validation.css";
 
 const validation = (props) => {
   return (
     <div className="Validation">
-      <p>{props.wordLength >= 10 ? "Text Long Enough" : "Text Too Short"}</p>
+      <p>
+        <span>Satus:</span>
+        {props.wordLength >= 10 ? "Text Long Enough" : "Text Too Short"}
+      </p>
     </div>
   );
 };

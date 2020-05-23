@@ -5,11 +5,16 @@ const charComponent = (props) => {
     display: "inline-block",
     margin: "0 2px",
     padding: "6px",
-    border: "2px solid black",
+    backgroundColor: "skyblue",
+    color: "#033",
+    borderRadius: "5px",
+    fontWeight: 600,
+    boxShadow: "2px 3px 2px #00000047",
+    cursor: "pointer",
   };
 
   return (
-    <div style={style} className="CharComponent">
+    <div style={style} className="CharComponent" onClick={props.click}>
       {props.char === " " ? "-" : props.char}
     </div>
   );
