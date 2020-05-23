@@ -30,6 +30,8 @@ this.seState( previousState => {
 
 - Outside of the return, **assign each page content to a variable** and **set the condition for the page counter value** to be x and render the content inside that x page
 
+- Ou, eu poderia passar a **página na query da URL, passando como parametro a page**, ao clicar o botão (chamará a função que faz o fetch) e ele vai dar um refetch sempre que trocar a pág com o seu conteúdo
+
 ```
 sate = {
     page1: [...],
