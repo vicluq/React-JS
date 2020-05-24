@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Styled from "styled-components";
-import "./App.css";
+import classes from "./App.css";
 import User from "./User/User";
 import Radium from "radium";
 // import Validation from "./Validation/Validation";
@@ -74,7 +74,7 @@ class App extends Component {
     let users = null;
     if (this.state.displayUsers) {
       users = (
-        <div className="users">
+        <div className={classes.users}>
           {this.state.displayUsers
             ? this.state.users.map((user, index) => (
                 <User
@@ -95,14 +95,14 @@ class App extends Component {
     }
 
     return (
-      <div className={`App ${theme}`}>
-        <h1 className={`Header-Title ${theme}`}>
+      <div className={`${classes.App} ${classes[theme]}`}>
+        <h1 className={`${classes["Header-Title"]} ${classes[theme]}`}>
           Working with conditional render and list render!
         </h1>
         <button onClick={this.themeHandler}>
           Switch to {this.state.darkTheme ? "Light" : "Dark"} Theme
         </button>
-        <div className={`user-list ${theme}`}>
+        <div className={`${classes["user-list"]} ${classes[theme]}`}>
           <ButtonStyled onClick={this.displayUsersHandler}>
             {this.state.displayUsers ? "Close Users List" : "Open Users List"}
           </ButtonStyled>
