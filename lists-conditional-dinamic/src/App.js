@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import lodash from "lodash";
+import Styled from "styled-components";
 import "./App.css";
 import User from "./User/User";
 import Radium from "radium";
@@ -54,21 +54,20 @@ class App extends Component {
   };
 
   render() {
-    const buttonStyle = {
-      // Button style
-      width: "130px",
-      height: "30px",
-      backgroundColor: "#0f0",
-      color: "#333",
-      transition: "all 0.3s",
-      border: "none",
-      ":hover": {
-        backgroundColor: "#090",
-        cursor: "pointer",
-        border: "2px solid black",
-        width: "150px",
-      },
-    };
+    const ButtonStyled = Styled.button`
+      width: 130px;
+      height: 30px;
+      background-color: ${this.state.displayUsers ? "#f50" : "#0f0"};
+      color: #333;
+      transition: all 0.3s;
+      border: none;
+       :hover {
+        background-color: ${this.state.displayUsers ? "#c70900" : "#090"};
+        cursor: pointer;
+        border: 2px solid black;
+        width: 150px;
+      }
+    `;
 
     const theme = this.state.darkTheme ? "dark" : "light"; //App theme
 
@@ -91,13 +90,6 @@ class App extends Component {
             : null}
         </div>
       );
-      buttonStyle.backgroundColor = "#f50";
-      buttonStyle[":hover"] = {
-        backgroundColor: "#c70900",
-        cursor: "pointer",
-        border: "2px solid black",
-        width: "150px",
-      };
     } else {
       users = null;
     }
@@ -111,9 +103,9 @@ class App extends Component {
           Switch to {this.state.darkTheme ? "Light" : "Dark"} Theme
         </button>
         <div className={`user-list ${theme}`}>
-          <button onClick={this.displayUsersHandler} style={buttonStyle}>
+          <ButtonStyled onClick={this.displayUsersHandler}>
             {this.state.displayUsers ? "Close Users List" : "Open Users List"}
-          </button>
+          </ButtonStyled>
           {users}
         </div>
       </div>
