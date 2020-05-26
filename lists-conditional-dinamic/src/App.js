@@ -57,11 +57,11 @@ class App extends Component {
     const ButtonStyled = Styled.button`
       width: 130px;
       height: 30px;
-      background-color: ${this.state.displayUsers ? "#f50" : "#0f0"};
+      background-color: ${(props) => (props.on ? "#f50" : "#0f0")};
       color: #333;
       transition: all 0.3s;
       border: none;
-       :hover {
+       &:hover {
         background-color: ${this.state.displayUsers ? "#c70900" : "#090"};
         cursor: pointer;
         border: 2px solid black;
@@ -103,7 +103,10 @@ class App extends Component {
           Switch to {this.state.darkTheme ? "Light" : "Dark"} Theme
         </button>
         <div className={`${classes["user-list"]} ${classes[theme]}`}>
-          <ButtonStyled onClick={this.displayUsersHandler}>
+          <ButtonStyled
+            on={this.state.displayUsers}
+            onClick={this.displayUsersHandler}
+          >
             {this.state.displayUsers ? "Close Users List" : "Open Users List"}
           </ButtonStyled>
           {users}
