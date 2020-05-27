@@ -1,10 +1,7 @@
 import React, { Component } from "react";
-import Styled from "styled-components";
 import classes from "./App.css";
-import User from "./User/User";
-import Radium from "radium";
-// import Validation from "./Validation/Validation";
-// import CharComponent from "./CharComponent/CharComponent";
+import { ButtonStyled } from "./AppStyled";
+import UserList from "./Components/UserList/UserList";
 
 class App extends Component {
   state = {
@@ -30,6 +27,12 @@ class App extends Component {
     darkTheme: false,
   };
 
+  shouldComponentUpdate(newProps, newState) {
+    console.table(this.state, newState);
+
+    return true;
+  }
+
   displayUsersHandler = (event) => {
     this.state.displayUsers
       ? this.setState({ displayUsers: false })
@@ -54,45 +57,7 @@ class App extends Component {
   };
 
   render() {
-    const ButtonStyled = Styled.button`
-      width: 130px;
-      height: 30px;
-      background-color: ${(props) => (props.on ? "#f50" : "#0f0")};
-      color: #333;
-      transition: all 0.3s;
-      border: none;
-       &:hover {
-        background-color: ${this.state.displayUsers ? "#c70900" : "#090"};
-        cursor: pointer;
-        border: 2px solid black;
-        width: 150px;
-      }
-    `;
-
     const theme = this.state.darkTheme ? "dark" : "light"; //App theme
-
-    let users = null;
-    if (this.state.displayUsers) {
-      users = (
-        <div className={classes.users}>
-          {this.state.displayUsers
-            ? this.state.users.map((user, index) => (
-                <User
-                  key={user.id}
-                  id={user.id}
-                  username={user.username}
-                  email={user.email}
-                  click={this.deleteUserHandler.bind(this, index)}
-                  changeUN={this.changeUserHandler.bind(this, index)}
-                  theme={theme}
-                />
-              ))
-            : null}
-        </div>
-      );
-    } else {
-      users = null;
-    }
 
     return (
       <div className={`${classes.App} ${classes[theme]}`}>
@@ -109,64 +74,19 @@ class App extends Component {
           >
             {this.state.displayUsers ? "Close Users List" : "Open Users List"}
           </ButtonStyled>
-          {users}
+          {this.state.displayUsers ? (
+            <UserList
+              changeUN={this.changeUserHandler}
+              click={this.deleteUserHandler}
+              class-name={classes.users}
+              users={this.state.users}
+              theme={theme}
+            />
+          ) : null}
         </div>
       </div>
     );
   }
 }
 
-export default Radium(App);
-// class App extends Component {
-//   state = {
-//     word: "null",
-//     wordlength: 4,
-//   };
-
-//   changeTextHandler = (event) => {
-//     this.setState({
-//       word: event.target.value,
-//       wordlength: event.target.value.length,
-//     });
-//   };
-
-//   deleteLetterHandler = (index) => {
-//     //O índex vai dizer quem deve sair, pois cada div Char vai enviar um index
-//     const word = [...this.state.word];
-//     word.splice(index, 1);
-//     this.setState({ word: word.join(""), wordlength: word.length });
-//   };
-
-//   render() {
-//     const charComps = (
-//       <div>
-//         {this.state.word.split("").map((char, index) => {
-//           return (
-//             <CharComponent
-//               key={`${char}${lodash.random(1, 1000000, false)}`}
-//               char={char}
-//               click={this.deleteLetterHandler.bind(this, index)}
-//             />
-//           );
-//         })}
-//       </div>
-//     );
-
-//     return (
-//       <div className="App">
-//         <h1>PLAYING WITH WORDS!</h1>
-//         <div className="textLengthInput">
-//           <label htmlFor="textLength">Text Length</label>
-//           <input id="textLength" disabled value={this.state.wordlength} />
-//         </div>
-//         <p>{this.state.word}</p>
-//         <div className="textRealated">
-//           <label htmlFor="textLength">Write something else</label>
-//           <input onChange={this.changeTextHandler} id="textLength" />
-//         </div>
-//         <Validation wordLength={this.state.wordlength} />
-//         {charComps}
-//       </div>
-//     );
-//   }
-// }
+export default App;
