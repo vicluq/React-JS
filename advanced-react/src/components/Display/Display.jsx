@@ -25,10 +25,8 @@ const display = (props) => {
 
 export default React.memo(display, (prevProps, newProps) => {
   if (prevProps.counter !== newProps.counter) {
-    console.log(prevProps.counter != newProps.counter);
-
     return false;
   } else {
-    return false;
+    return true;
   }
 }); // Only re-render this component if the props/state suffer some change!

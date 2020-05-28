@@ -1,6 +1,7 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useState, Fragment } from "react";
 import "./App.css";
 import Display from "./components/Display/Display";
+import Style from "./components/HOC/Style";
 
 const App = (props) => {
   const [state, setCounter] = useState({
@@ -44,10 +45,12 @@ const App = (props) => {
     users = <Display counter={state.counter2} />;
   }
 
+  console.log(props);
+
   return (
-    <div className="App">
+    <Fragment>
       <header>
-        <h1>Advanced Component Knowledge</h1>
+        <h1>{props.title}</h1>
       </header>
       <p>counter1: {state.counter}</p>
       <button onClick={counterIncrementHandler}> + </button>
@@ -59,21 +62,12 @@ const App = (props) => {
         Display: {state.display ? "ON" : "OFF"}
       </button>
       {users}
-    </div>
+    </Fragment>
   );
 };
 
-export default App;
+const styleObj = {
+  textAlign: "center",
+};
 
-// class App extends Component {
-//   render() {
-//     return (
-//       <div className="App">
-//         <header>
-//           <h1>Advanced Component Knowledge</h1>
-//         </header>
-
-//       </div>
-//     );
-//   }
-// }
+export default Style(App, styleObj);
