@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState, Fragment, useRef } from "react";
 import "./App.css";
 import Display from "./components/Display/Display";
 import Style from "./components/HOC/Style";
@@ -9,6 +9,14 @@ const App = (props) => {
     counter2: 0,
     display: false,
   });
+
+  let displayButton = null;
+  const increaseBut = useRef();
+
+  useEffect(() => {
+    displayButton.click();
+    increaseBut.current.click();
+  }, []);
 
   useEffect(() => {
     console.log(
@@ -45,20 +53,25 @@ const App = (props) => {
     users = <Display counter={state.counter2} />;
   }
 
-  console.log(props);
-
   return (
     <Fragment>
       <header>
         <h1>{props.title}</h1>
       </header>
       <p>counter1: {state.counter}</p>
-      <button onClick={counterIncrementHandler}> + </button>
+      <button ref={increaseBut} onClick={counterIncrementHandler}>
+        +
+      </button>
       <p>counter2: {state.counter2}</p>
       <button onClick={counter2IncrementHandler}> + </button>
       <br />
       <br />
-      <button onClick={displayHandler}>
+      <button
+        ref={(displayBut) => {
+          displayButton = displayBut;
+        }}
+        onClick={displayHandler}
+      >
         Display: {state.display ? "ON" : "OFF"}
       </button>
       {users}
@@ -71,3 +84,4 @@ const styleObj = {
 };
 
 export default Style(App, styleObj);
+// React passará o mesmo nome pois ele sabe quem pegamos no HOC

@@ -1,12 +1,12 @@
 import React from "react";
+import Theme from "../../theme/themeContext";
 
-const style = (Component, styleObj) => {
+const style = (Component) => {
   return (props) => {
-    console.log(props);
     return (
-      <div style={styleObj}>
+      <Theme.Provider>
         <Component {...props} />
-      </div>
+      </Theme.Provider>
     );
   };
 };

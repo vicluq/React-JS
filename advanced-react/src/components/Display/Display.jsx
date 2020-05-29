@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import propTypes from "prop-types";
 
 const display = (props) => {
   useEffect(() => {
@@ -21,6 +22,10 @@ const display = (props) => {
       <p>{props.counter}</p>
     </div>
   );
+};
+
+display.propTypes = {
+  counter: propTypes.number,
 };
 
 export default React.memo(display, (prevProps, newProps) => {
