@@ -1,0 +1,63 @@
+.MainHeader {
+  margin: 0 0 20px;
+  background-color: #2f2f2f;
+  color: white;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.MainHeader h1 {
+  margin: 0 0 0 20px;
+  height: 40px;
+}
+
+.mainTitle {
+  text-decoration: none;
+  color: white;
+}
+
+.MainHeader nav {
+  width: 20%;
+  height: 100%;
+}
+
+.MainHeader nav ul {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.MainHeader nav ul li {
+  list-style: none;
+  margin: 0 15px;
+}
+
+.MainHeader nav ul li:hover {
+  background-color: lightskyblue;
+  cursor: pointer;
+}
+
+.MainHeader nav ul li a {
+  height: 100%;
+  text-decoration: none;
+  color: white;
+  padding: 8px 6px;
+  background-color: turquoise;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.MainHeader nav ul li a:active {
+  text-decoration: none;
+  color: blue;
+  font-weight: bold;
+}
