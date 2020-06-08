@@ -3,23 +3,34 @@ import Burger from "../../Components/Burger/Burger";
 import BuildControls from "../../Components/BuildControls/BuilldControls";
 import Modal from "../../Components/UI/Modal/Modal";
 import OrderSummary from "./../../Components/OrderSummary/OrderSummary";
+import storeOrder from "../../services/store-order";
+import Spinner from "../../Components/UI/Spinner/Spinner";
 
 class BurgerBuilder extends Component {
   state = {
     ingredients: {
       salad: 0,
-      bacon: 0,
       cheese: 0,
+      bacon: 0,
       meat: 0,
     },
-    prices: {
-      salad: 0.65,
-      bacon: 1.15,
-      cheese: 1.25,
-      meat: 2.35,
-    }, //add the prices
+    prices: {}, //prices fetched from backend
     totalPrice: 3.25, //sum the rest
     orderNow: false,
+    orderSuccess: null,
+    orderProcess: false,
+    error: false,
+  };
+
+  componentDidMount = () => {
+    storeOrder
+      .get("/ingredientsPrices.json")
+      .then(({ data }) => {
+        this.setState((oldState) => ({ ...oldState, prices: data }));
+      })
+      .catch((err) => {
+        this.setState((oldState) => ({ ...oldState, error: true }));
+      });
   };
 
   addIngrHandler = (type) => {
@@ -57,7 +68,21 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinued = () => {
-    alert("purchased!");
+    this.setState({ orderProcess: true });
+    const order_summary = {
+      costumer: {},
+      ingredients: this.state.ingredients,
+      total: this.state.totalPrice,
+    };
+    storeOrder
+      .post("/orders.json", order_summary)
+      .then((res) => {
+        console.log(res);
+        this.setState({ orderProcess: false, orderNow: false });
+      })
+      .catch((err) => {
+        this.setState({ orderProcess: false, orderNow: false });
+      });
   };
 
   render() {
@@ -74,13 +99,18 @@ class BurgerBuilder extends Component {
         <Modal
           showing={this.state.orderNow}
           closeModal={this.closeModalHandler}
+          orderProcess={this.state.orderProcess}
         >
-          <OrderSummary
-            ingredients={this.state.ingredients}
-            price={this.state.totalPrice.toFixed(2)}
-            cancelOrder={this.closeModalHandler}
-            purchaseContinued={this.purchaseContinued}
-          />
+          {this.state.orderProcess ? (
+            <Spinner />
+          ) : (
+            <OrderSummary
+              ingredients={this.state.ingredients}
+              price={this.state.totalPrice.toFixed(2)}
+              cancelOrder={this.closeModalHandler}
+              purchaseContinued={this.purchaseContinued}
+            />
+          )}
         </Modal>
       </Fragment>
     );

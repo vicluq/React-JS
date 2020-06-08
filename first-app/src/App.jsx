@@ -2,11 +2,23 @@ import React, { Component } from "react";
 import "./App.css";
 import UserOutput from "./UserOutput/UserOutput";
 import UserInput from "./UserInput/UserInput";
+import { football } from "./services/footballapi";
 
 class App extends Component {
   state = {
     test: "react é massa",
     username: "Victoria Luquet",
+  };
+
+  componentDidMount = () => {
+    football
+      .get("/teams/4/matches")
+      .then(({ data }) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   changeUsernameHandler = (event) => {

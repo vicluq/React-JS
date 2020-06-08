@@ -45,3 +45,26 @@ sate = {
     pageCounter: 1,
 }
 ```
+
+<hr>
+
+## Using Firebase
+
+> Firebase is a google provided database client.
+
+- Selecionar a RealTimeDatabase
+- Como não vou criar auth, deixo pública para eu poder usar
+- Para criar nós eu devo criar um _endpoint com o nome do nó_
+- Eu **devo por o '.json'** pois o Firebase pede esse endpoint
+
+```
+axios.post(url + '/movies.json', {})
+
+// na db
+{
+  "movies": {
+    "movie1": {},
+    "movie2": {}
+  }
+}
+```
