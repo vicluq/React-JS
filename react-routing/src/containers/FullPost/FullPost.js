@@ -13,11 +13,30 @@ class FullPost extends Component {
       `https://jsonplaceholder.typicode.com/posts/${this.props.match.params.postId}`
     )
       .then(({ data }) => {
+        console.log("got it!");
         this.setState({ post: data });
       })
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  componentDidUpdate() {
+    if (`${this.state.post.id}` !== this.props.match.params.postId) {
+      console.log("mudou");
+      Axios.get(
+        `https://jsonplaceholder.typicode.com/posts/${this.props.match.params.postId}`
+      )
+        .then(({ data }) => {
+          console.log("got it!");
+          this.setState({ post: data });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log("não mudou");
+    }
   }
 
   deletePostHandler = (postId) => {
@@ -30,7 +49,8 @@ class FullPost extends Component {
 
   render() {
     return (
-      <section>
+      <section className="FullPostSec">
+        <button onClick={this.props.history.goBack}> Back </button>
         <div className="FullPost">
           {Object.keys(this.state.post).length > 0 ? (
             <Fragment>

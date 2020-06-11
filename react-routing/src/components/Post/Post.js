@@ -1,6 +1,5 @@
 import React from "react";
-import FullPost from "./../../containers/FullPost/FullPost";
-import { Route, Link, withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import "./Post.css";
 
 const Post = (props) => {
@@ -11,8 +10,9 @@ const Post = (props) => {
         <div className="Author">{props.author}</div>
       </div>
       <Link
+        className="read-more-link"
         to={{
-          pathname: `/posts/${props.id}`,
+          pathname: `/${props.id}`,
         }}
       >
         Read More...

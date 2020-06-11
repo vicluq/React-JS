@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
-import Post from "../../components/Post/Post";
-import "./Posts.css";
+import React, { useEffect, useState, Fragment } from "react";
 import axios from "axios";
+import { Route } from "react-router-dom";
+
+import Post from "../../components/Post/Post";
+import FullPost from "./../FullPost/FullPost";
+import "./Posts.css";
 
 const Posts = (props) => {
   const [state, setPosts] = useState({ posts: [], isThereAnError: false });
@@ -22,22 +25,27 @@ const Posts = (props) => {
       });
   }, []);
 
+  console.log(props);
+
   return (
-    <section className="Posts">
-      {state.posts.length > 0 ? (
-        state.posts.map((post) => (
-          <Post
-            key={post.id}
-            id={post.id}
-            title={post.title}
-            author="Victoria"
-            post={post}
-          />
-        ))
-      ) : (
-        <h2>Loading ...</h2>
-      )}
-    </section>
+    <Fragment>
+      <section className="Posts">
+        {state.posts.length > 0 ? (
+          state.posts.map((post) => (
+            <Post
+              key={post.id}
+              id={post.id}
+              title={post.title}
+              author="Victoria"
+              post={post}
+            />
+          ))
+        ) : (
+          <h2>Loading ...</h2>
+        )}
+      </section>
+      <Route path={`/posts/:postId`} component={FullPost} />
+    </Fragment>
   );
 };
 

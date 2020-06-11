@@ -1,17 +1,21 @@
-import React, { Component } from "react";
-import { Route, Link } from "react-router-dom";
-import Posts from "../Posts/Posts";
-import FullPost from "../FullPost/FullPost";
-import NewPost from "../NewPost/NewPost";
+import React, { Component, lazy, Suspense } from "react";
+import { Route, Link, NavLink, Switch, Redirect } from "react-router-dom";
+
+import Error404 from "../../components/Error404/Error404";
 import "./Blog.css";
+
+const Posts = lazy(() => import("./../Posts/Posts"));
+const NewPost = lazy(() => import("../NewPost/NewPost"));
 
 class Blog extends Component {
   state = {
     isThereAnError: false,
     fullPost: null,
+    auth: false,
   };
 
   render() {
+    console.log(this.props);
     return (
       <div>
         <header className="MainHeader">
@@ -23,17 +27,41 @@ class Blog extends Component {
           <nav>
             <ul>
               <li>
-                <Link to="/">Homepage</Link>
+                <NavLink exact to="/posts">
+                  Homepage
+                </NavLink>
               </li>
               <li>
-                <Link to="/new-post">New Post</Link>
+                <NavLink exact to="/new-post">
+                  New Post
+                </NavLink>
               </li>
             </ul>
           </nav>
         </header>
-        <Route path="/" exact component={Posts} />
-        <Route path={`/posts/:postId`} exact component={FullPost} />
-        <Route path="/new-post" exact component={NewPost} />
+        <Switch>
+          {this.state.auth ? (
+            <Route
+              path="/new-post"
+              render={() => (
+                <Suspense fallback={<h1>Loading ...</h1>}>
+                  {" "}
+                  <NewPost />{" "}
+                </Suspense>
+              )}
+            />
+          ) : // <Redirect from="/new-post" to="/" />
+          null}
+          <Route
+            path="/posts"
+            render={() => (
+              <Suspense fallback={<h1>Loading ...</h1>}>
+                <Posts />
+              </Suspense>
+            )}
+          />
+          <Route component={Error404} />
+        </Switch>
       </div>
     );
   }
