@@ -8,8 +8,7 @@ const FullCourse = (props) => {
   const [COURSE, setCourse] = useState([{}]);
 
   useEffect(() => {
-    // if (props.match.params.id !== `${COURSE.id}`) {
-    const newCourse = all_courses.filter(
+    const [newCourse] = all_courses.filter(
       (course) => `${course.id}` === props.match.params.id
     );
     setCourse(newCourse);
@@ -17,15 +16,15 @@ const FullCourse = (props) => {
 
   return (
     <div className="FullCourse">
-      <h3>{COURSE[0].title}</h3>
+      <h3>{COURSE.title}</h3>
       <p className="price">
-        <strong>${COURSE[0].price}</strong>
+        <strong>${COURSE.price}</strong>
       </p>
-      <p className="teacher">{COURSE[0].teacher}</p>
+      <p className="teacher">{COURSE.teacher}</p>
       <Link
         to={{
-          pathname: `/course`,
-          search: `?title=${COURSE[0].title}&price=${COURSE[0].price}&desc=${COURSE[0].desription}&teacher=${COURSE[0].teacher}`,
+          pathname: `/courses/course`,
+          search: `?title=${COURSE.title}&price=${COURSE.price}&desc=${COURSE.desription}&teacher=${COURSE.teacher}`,
         }}
       >
         See More...

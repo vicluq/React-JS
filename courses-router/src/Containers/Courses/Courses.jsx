@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from "react";
-import { Route, Link } from "react-router-dom";
+import React, { Component, Fragment, lazy, Suspense } from "react";
+import { Route } from "react-router-dom";
 import "./Courses.css";
 
-import FullCourse from "../FullCourse/FullCourse";
 import Course from "../../Components/Course/Course";
 import { courses } from "./../../Contexts/courses";
+const FullCourse = lazy(() => import("../FullCourse/FullCourse"));
 
 class Courses extends Component {
   state = {
@@ -58,7 +58,14 @@ class Courses extends Component {
             ))}
           </section>
           <div className="Course-Present">
-            <Route path="/courses/:id" component={FullCourse} />
+            <Route
+              path="/courses/:id"
+              render={(props) => (
+                <Suspense fallback={<h2>Loading...</h2>}>
+                  <FullCourse {...props} />
+                </Suspense>
+              )}
+            />
           </div>
         </Fragment>
       </courses.Provider>

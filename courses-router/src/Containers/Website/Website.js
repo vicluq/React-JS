@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment, lazy, Suspense } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import Header from "../../Components/Header/Header";
 import Courses from "../Courses/Courses";
-import CoursePage from "../CoursePage/CoursePage";
+const CoursePage = lazy(() => import("../CoursePage/CoursePage"));
 
 class Website extends Component {
   state = {};
@@ -14,9 +14,16 @@ class Website extends Component {
         <Header />
         <div className="Content">
           <Switch>
+            <Route
+              path="/courses/course"
+              render={(props) => (
+                <Suspense fallback={<h2>Loading Course...</h2>}>
+                  <CoursePage {...props} />
+                </Suspense>
+              )}
+            />
             <Route path="/courses" component={Courses} />
-            <Route path="/course" component={CoursePage} />
-            <Route path="/users" component={""} />
+            <Route path="/users" render={() => <h2>USERS PAGE</h2>} />
             <Redirect from="/all-courses" to="/courses" />
             <Redirect from="/" to="/courses" />
           </Switch>
