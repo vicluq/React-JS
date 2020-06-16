@@ -19,11 +19,10 @@ const orderCard = (props) => {
         Price: <strong>${props.price.toFixed(2)}</strong>
       </p>
       <p className="dateP">
-        <strong>Time:</strong> {props.date.time}
+        <strong>Date: </strong>
+        {props.date.day} at {props.date.time}
       </p>
-      <button onClick={""} className="DeliverButton">
-        Deliver
-      </button>
+      <button /*onClick={""}*/ className="DeliverButton">Deliver</button>
     </div>
   );
 };

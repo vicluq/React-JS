@@ -14,16 +14,30 @@ class ContactData extends Component {
   }
 
   state = {
-    name: "",
-    email: "",
-    address: {
-      street: "",
-      postalCode: "",
+    formData: {
+      name: {
+        valid: false,
+        value: "",
+      },
+      email: {
+        valid: false,
+        value: "",
+      },
+      street: {
+        valid: false,
+        value: "",
+      },
+      postalCode: {
+        valid: false,
+        value: "",
+      },
+      num: {
+        valid: false,
+        value: "",
+      },
+      deliveryOption: "Slower=0.6",
+      finalTotal: 0,
     },
-    deliveryOption: "Slower=0.6",
-    aditionals: [],
-    finalTotal: 0,
-
     loading: false,
     success: null,
     modal: false,
@@ -31,10 +45,13 @@ class ContactData extends Component {
 
   componentDidMount() {
     const tax = Number(this.selectRef.current.value.split("=")[1]);
-    this.setState({
-      finalTotal: this.props.orderInfo.total + tax,
-      deliveryOption: this.selectRef.current.value,
-    });
+    this.setState((oldState) => ({
+      formData: {
+        ...oldState.formData,
+        finalTotal: this.props.orderInfo.total + tax,
+        deliveryOption: this.selectRef.current.value,
+      },
+    }));
   }
 
   componentWillUnmount() {
@@ -43,24 +60,52 @@ class ContactData extends Component {
 
   getNameHandler = (event) => {
     const name = event.target.value;
-    this.setState((oldState) => ({ ...oldState, name: name }));
+    const isValid = name.trim().length >= 2 ? true : false;
+    this.setState((oldState) => ({
+      ...oldState,
+      formData: { ...oldState.formData, name: { value: name, valid: isValid } },
+    }));
   };
   getEmailHandler = (event) => {
     const email = event.target.value;
-    this.setState((oldState) => ({ ...oldState, email: email }));
+    const isValid =
+      email.includes("@") && email.includes(".com") ? true : false;
+    this.setState((oldState) => ({
+      ...oldState,
+      formData: {
+        ...oldState.formData,
+        email: { value: email, valid: isValid },
+      },
+    }));
   };
   getStreetHandler = (event) => {
     const street = event.target.value;
+    const isValid = street.trim().length > 3 ? true : false;
     this.setState((oldState) => ({
       ...oldState,
-      address: { ...oldState.address, street: street },
+      formData: {
+        ...oldState.formData,
+        street: { value: street, valid: isValid },
+      },
+    }));
+  };
+  getNumHandler = (event) => {
+    const num = event.target.value;
+    const isValid = num.length > 0 ? true : false;
+    this.setState((oldState) => ({
+      ...oldState,
+      formData: { ...oldState.formData, num: { value: num, valid: isValid } },
     }));
   };
   getPostalHandler = (event) => {
     const postal = event.target.value;
+    const isValid = postal.trim().length !== 8 ? false : true;
     this.setState((oldState) => ({
       ...oldState,
-      address: { ...oldState.address, postalCode: postal },
+      formData: {
+        ...oldState.formData,
+        postalCode: { value: postal, valid: isValid },
+      },
     }));
   };
 
@@ -69,54 +114,74 @@ class ContactData extends Component {
     const tax = Number(del_opt.split("=")[1]);
     this.setState((oldState) => ({
       ...oldState,
-      deliveryOption: del_opt,
-      finalTotal: this.props.orderInfo.total + tax,
+      formData: {
+        ...oldState.formData,
+        finalTotal: this.props.orderInfo.total + tax,
+        deliveryOption: del_opt,
+      },
     }));
   };
 
   //place order
   placeOrderHandler = (event) => {
     event.preventDefault();
-    this.setState((oldState) => ({ ...oldState, loading: true }));
 
-    const order = {
-      costumerInfo: {
-        name: this.state.name,
-        email: this.state.email,
-        address: { ...this.state.address },
+    const canProceed = Object.values(this.state.formData).reduce(
+      (counter, value) => {
+        if (value.valid !== undefined) {
+          return counter && value.valid;
+        } else {
+          return counter;
+        }
       },
-      orderInfo: { ...this.props.orderInfo, total: this.state.finalTotal },
-      deliveryOption: this.state.deliveryOption,
-      date: {
-        day: new Date().toLocaleDateString(),
-        time: new Date().toLocaleTimeString(),
-      },
-    };
+      true
+    );
+    console.log("is form valid: ", canProceed);
+    if (canProceed) {
+      this.setState((oldState) => ({
+        ...oldState,
+        loading: true,
+      }));
 
-    storeOrder //Axios instance
-      .post("/orders.json", order)
-      .then((res) => {
-        this.setState((oldState) => ({
-          ...oldState,
-          loading: false,
-          success: true,
-          modal: true,
-        }));
-        this.timer = setTimeout(() => {
-          this.props.history.push("/");
-        }, 4000);
-      })
-      .catch((err) => {
-        this.setState((oldState) => ({
-          ...oldState,
-          loading: false,
-          success: false,
-          modal: true,
-        }));
-        this.timer = setTimeout(() => {
-          this.props.history.push("/");
-        }, 4000);
-      });
+      const order = {
+        costumerInfo: {
+          name: this.state.name,
+          email: this.state.email,
+          address: { ...this.state.address },
+        },
+        orderInfo: { ...this.props.orderInfo, total: this.state.finalTotal },
+        deliveryOption: this.state.deliveryOption,
+        date: {
+          day: new Date().toLocaleDateString(),
+          time: new Date().toLocaleTimeString(),
+        },
+      };
+
+      storeOrder //Axios instance
+        .post("/orders.json", order)
+        .then((res) => {
+          this.setState((oldState) => ({
+            ...oldState,
+            loading: false,
+            success: true,
+            modal: true,
+          }));
+          this.timer = setTimeout(() => {
+            this.props.history.push("/");
+          }, 4000);
+        })
+        .catch((err) => {
+          this.setState((oldState) => ({
+            ...oldState,
+            loading: false,
+            success: false,
+            modal: true,
+          }));
+          this.timer = setTimeout(() => {
+            this.props.history.push("/");
+          }, 4000);
+        });
+    }
   };
 
   render() {
@@ -147,6 +212,27 @@ class ContactData extends Component {
       );
     }
 
+    let spinner = null;
+    if (this.state.loading) {
+      spinner = (
+        <>
+          <Backdrop showing={this.state.loading} />
+          <Spinner />
+        </>
+      );
+    }
+
+    const canProceed = Object.values(this.state.formData).reduce(
+      (counter, value) => {
+        if (value.valid !== undefined) {
+          return counter && value.valid;
+        } else {
+          return counter;
+        }
+      },
+      true
+    );
+    console.log("is form valid: ", canProceed);
     return (
       <>
         <div className="ContactDataDiv">
@@ -163,7 +249,8 @@ class ContactData extends Component {
                 type="text"
                 name="name"
                 pholder="name..."
-                value={this.state.name}
+                value={this.state.formData.name.value}
+                valid={!!this.state.formData.name.valid}
               />
               <FormInput
                 onchange={this.getEmailHandler}
@@ -171,31 +258,42 @@ class ContactData extends Component {
                 type="email"
                 name="email"
                 pholder="email..."
-                value={this.state.email}
+                value={this.state.formData.email.value}
+                valid={!!this.state.formData.email.valid}
               />
             </fieldset>
             <fieldset>
               <legend>Enter your Address Info</legend>
-              <FormInput
-                onchange={this.getStreetHandler}
-                req={true}
-                type="text"
-                name="address-street"
-                pholder="Street..."
-                value={this.state.address.street}
-              />
+              <div className="form-house-info">
+                <FormInput
+                  className="street-input"
+                  onchange={this.getStreetHandler}
+                  req={true}
+                  type="text"
+                  name="address-street"
+                  pholder="Street..."
+                  value={this.state.formData.street.value}
+                  valid={!!this.state.formData.street.valid}
+                />
+                <FormInput
+                  className="num-input"
+                  onchange={this.getNumHandler}
+                  req={true}
+                  type="text"
+                  name="address-num"
+                  pholder="Num..."
+                  value={this.state.formData.num.value}
+                  valid={!!this.state.formData.num.valid}
+                />
+              </div>
               <FormInput
                 onchange={this.getPostalHandler}
                 type="text"
                 req={true}
                 name="address-postal-code"
                 pholder="Postal Code..."
-                value={this.state.address.postalCode}
-                borderColor={
-                  this.state.address.postalCode.length !== 8
-                    ? "red"
-                    : "lightgreen"
-                }
+                value={this.state.formData.postalCode.value}
+                valid={!!this.state.formData.postalCode.valid}
               />
             </fieldset>
             <fieldset>
@@ -211,9 +309,9 @@ class ContactData extends Component {
                 <option value="slower=0.6">Slower: $0.6</option>
               </select>
             </fieldset>
-            <h3>Final Price: ${this.state.finalTotal.toFixed(2)}</h3>
+            <h3>Final Price: ${this.state.formData.finalTotal.toFixed(2)}</h3>
             <button
-              disabled={this.state.success}
+              disabled={!canProceed}
               className="OrderButton"
               type="submit"
             >
@@ -221,12 +319,7 @@ class ContactData extends Component {
             </button>
           </form>
         </div>
-        {this.state.loading ? (
-          <>
-            <Backdrop showing={this.state.loading} />
-            <Spinner />
-          </>
-        ) : null}
+        {spinner}
         {orderStatus}
       </>
     );

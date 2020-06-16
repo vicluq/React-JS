@@ -9,7 +9,7 @@ const formInput = (props) => {
       placeholder={props.pholder}
       onChange={props.onchange}
       value={props.value}
-      style={{ borderColor: props.borderColor }}
+      style={{ borderColor: props.valid ? "lightgreen" : "crimson" }}
     />
   );
 };

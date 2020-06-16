@@ -2,6 +2,7 @@
   margin: auto;
   display: flex;
   justify-content: start;
+  box-sizing: border-box;
 }
 
 .ContactData {
@@ -42,6 +43,21 @@
 
 .ContactData fieldset legend {
   font-weight: bold;
+}
+
+.form-house-info {
+  margin: auto;
+  width: 75%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ContactData fieldset .form-house-info .street-input {
+  width: 80%;
+  flex: 2;
+}
+.ContactData fieldset .form-house-info .num-input {
+  width: ;
 }
 
 @media (min-width: 600px) {
