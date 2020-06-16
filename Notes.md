@@ -1,4 +1,14 @@
-# Fetching Data
+# Guideline
+
+<a href='#fetching-data'>Fetching Data</a> <br>
+<a href='#async-state'>Async State</a> <br>
+<a href='#multiple-page-api'>Multiple Page API</a> <br>
+<a href='#firebase'>Using Firebase</a> <br>
+<a href='#recoil'>Recoil.js</a> <br>
+
+<hr>
+
+<h2 id='fetching-data'>Fetching Data</h2>
 
 - Use **componentDidMount** to fetch, because it will fetch the moment the State component (container) loads
 
@@ -13,7 +23,7 @@
 <br>
 <hr>
 
-# Async st
+<h2 id='async-state'>Async State</h2>
 
 ]ate updates
 
@@ -28,7 +38,7 @@ this.seState( previousState => {
 <br>
 <hr>
 
-# APIs with multiple page
+<h2 id='multiple-page-api'>Multiple Page API</h2>
 
 - Make use of conditional render. Store each page data inside a diferent variable inside state and store a **'page' variable inside state** and create a **"counter"** that increments and decrements the value of **this.state.page**. Remember: use **setState** to do all of it. Call the fetch function and pass the page as a parameter
 
@@ -48,7 +58,7 @@ sate = {
 
 <hr>
 
-# Using Firebase
+<h2 id='firebase'>Using Firebase</h2>
 
 > Firebase is a google provided database client.
 
@@ -69,7 +79,7 @@ axios.post(url + '/movies.json', {})
 }
 ```
 
-# Using Recoil.js
+<h2 id='recois'>Recoil.js</h2>
 
 ### A React Official State Manager, powered by Facebook
 
