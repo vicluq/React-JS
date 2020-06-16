@@ -68,21 +68,14 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinued = () => {
-    this.setState({ orderProcess: true });
+    // this.setState({ orderProcess: true });
     const order_summary = {
-      costumer: {},
       ingredients: this.state.ingredients,
       total: this.state.totalPrice,
     };
-    storeOrder
-      .post("/orders.json", order_summary)
-      .then((res) => {
-        console.log(res);
-        this.setState({ orderProcess: false, orderNow: false });
-      })
-      .catch((err) => {
-        this.setState({ orderProcess: false, orderNow: false });
-      });
+    this.props.history.push(
+      `/checkout?total=${this.state.totalPrice}&salad=${this.state.ingredients.salad}&cheese=${this.state.ingredients.cheese}&bacon=${this.state.ingredients.bacon}&meat=${this.state.ingredients.meat}`
+    );
   };
 
   render() {
@@ -118,3 +111,15 @@ class BurgerBuilder extends Component {
 }
 
 export default BurgerBuilder;
+
+// storeOrder
+// .post("/orders.json", order_summary)
+// .then((res) => {
+//   this.setState({ orderProcess: false, orderNow: false });
+//   this.props.history.push("/checkout/" + res.data.name);
+// })
+// .catch((err) => {
+//   this.setState({ orderProcess: false, orderNow: false });
+
+//   //display error
+// });

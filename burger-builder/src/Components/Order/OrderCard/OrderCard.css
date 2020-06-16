@@ -1,0 +1,37 @@
+.OrderCard {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  border: 2px solid #703b09;
+  border-radius: 3px;
+
+  background-color: rgba(255, 166, 0, 0.7);
+  color: #fff;
+  font-size: 17px;
+}
+
+.OrderCard p {
+  margin: 5px 0 10px;
+}
+
+.OrderCard span {
+  color: green;
+  font-weight: bold;
+}
+
+.OrderCard .priceP {
+  width: max-content;
+  padding: 3px;
+
+  font-weight: bold;
+  box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.144);
+}
+
+.OrderCard .priceP strong {
+  color: crimson;
+}

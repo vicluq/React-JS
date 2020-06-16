@@ -1,0 +1,59 @@
+.ContactDataDiv {
+  margin: auto;
+  display: flex;
+  justify-content: start;
+}
+
+.ContactData {
+  margin: 20px auto;
+  width: 80%;
+  text-align: center;
+}
+
+.ContactData fieldset {
+  margin-bottom: 15px;
+  border: 2px solid orange;
+  border-radius: 5px;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.15);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.ContactData fieldset select,
+.ContactData fieldset input {
+  width: 70%;
+  margin: 5px auto;
+  padding: 5px 10px;
+
+  outline: none;
+  border: 1.5px solid lightgreen;
+  border-radius: 5px;
+  background-color: #eee;
+
+  transition: all 0.15s;
+}
+
+.ContactData fieldset select:focus,
+.ContactData fieldset input:focus {
+  background-color: #fff;
+}
+
+.ContactData fieldset legend {
+  font-weight: bold;
+}
+
+@media (min-width: 600px) {
+  .ContactData {
+    width: 500px;
+  }
+}
+
+.OrderSuccess {
+  color: lightgreen;
+}
+
+.OrderFail {
+  color: crimson;
+}

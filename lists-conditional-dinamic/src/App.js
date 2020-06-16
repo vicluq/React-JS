@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import classes from "./App.css";
 import { ButtonStyled } from "./AppStyled";
+
+import Form from "./Components/Form/Form";
 import UserList from "./Components/UserList/UserList";
 
 class App extends Component {
@@ -25,11 +27,51 @@ class App extends Component {
     ],
     displayUsers: false,
     darkTheme: false,
+    //form inputs
+    formInputs: {
+      name: {
+        inputType: "input",
+        type: "text",
+        config: { required: true, placeholder: "name..." },
+        value: "",
+      },
+      email: {
+        inputType: "input",
+        type: "email",
+        config: { required: true, placeholder: "e-mail..." },
+        value: "",
+      },
+      rg: {
+        inputType: "input",
+        type: "text",
+        config: { required: true, placeholder: "rg..." },
+        value: "",
+      },
+      age: {
+        inputType: "input",
+        type: "number",
+        config: { required: true, placeholder: "age..." },
+        value: "",
+      },
+
+      job: {
+        inputType: "select",
+        type: "select",
+        config: { required: true },
+        options: [
+          { value: "teacher", name: "Teacher" },
+          { value: "accountant", name: "Accountant" },
+          { value: "doctor", name: "Doctor" },
+          { value: "lawyer", name: "Lawyer" },
+          { value: "police-officer", name: "Police Officer" },
+          { value: "computer-engineer", name: "Computer Engineer" },
+        ],
+        value: "",
+      },
+    },
   };
 
   shouldComponentUpdate(newProps, newState) {
-    console.table(this.state, newState);
-
     return true;
   }
 
@@ -37,7 +79,6 @@ class App extends Component {
     this.state.displayUsers
       ? this.setState({ displayUsers: false })
       : this.setState({ displayUsers: true });
-    console.log(this.state.displayUsers);
   };
 
   deleteUserHandler = (indexUser) => {
@@ -54,6 +95,14 @@ class App extends Component {
 
   themeHandler = () => {
     this.setState({ darkTheme: !this.state.darkTheme });
+  };
+
+  inputChangeHandler = (id, event) => {
+    const inputs = { ...this.state.formInputs };
+    const inputElement = { ...inputs[id] };
+    inputElement.value = event.target.value;
+    inputs[id] = inputElement;
+    this.setState((oldState) => ({ ...oldState, formInputs: { ...inputs } }));
   };
 
   render() {
@@ -84,6 +133,7 @@ class App extends Component {
             />
           ) : null}
         </div>
+        <Form inputs={this.state.formInputs} change={this.inputChangeHandler} />
       </div>
     );
   }

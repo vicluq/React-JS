@@ -1,0 +1,12 @@
+.AllOrders {
+  width: 90%;
+  margin: auto;
+  padding: 10px 20px;
+  box-sizing: border-box;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+
+  box-shadow: 2px 2px 3px 3px rgba(0, 0, 0, 0.144);
+}

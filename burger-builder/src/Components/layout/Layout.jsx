@@ -17,9 +17,10 @@ class layout extends Component {
       <Fragment>
         <SideDrawer
           open={this.state.showSideDrawer}
+          isAuth={this.props.isAuth}
           click={this.showSDHandler}
         />
-        <Toolbar click={this.showSDHandler} />
+        <Toolbar click={this.showSDHandler} isAuth={this.props.isAuth} />
         <main className={classes.main}>{this.props.children}</main>
       </Fragment>
     );

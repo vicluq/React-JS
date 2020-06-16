@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import "./App.css";
+
 import UserOutput from "./UserOutput/UserOutput";
 import UserInput from "./UserInput/UserInput";
-import { football } from "./services/footballapi";
+import ytdl from "ytdl-core";
+import fs from "fs";
 
 class App extends Component {
   state = {
@@ -10,15 +12,26 @@ class App extends Component {
     username: "Victoria Luquet",
   };
 
-  componentDidMount = () => {
-    football
-      .get("/teams/4/matches")
-      .then(({ data }) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  downYT = () => {
+    const myDown = ytdl("https://www.youtube.com/watch?v=SC7lsvWq3ng", {
+      format: "mp4",
+      quality: "highest",
+      filter: "audioandvideo",
+    });
+
+    let filename = null;
+
+    myDown.on("info", (info) => {
+      filename = info.playerResponse.videoDetails.title.replace(
+        /[^a-z0-9\-]/gi,
+        "_"
+      );
+      myDown.pipe(fs.createWriteStream(`${filename}.mp4`));
+    });
+
+    myDown.on("progress", (chunk, downloaded, total) => {
+      console.log(`${Math.floor(downloaded / total)}%`);
+    });
   };
 
   changeUsernameHandler = (event) => {
@@ -39,6 +52,7 @@ class App extends Component {
           <UserOutput username={this.state.username} />
           <UserOutput username={this.state.username} />
         </div>
+        <button onClick={this.downYT}>DOWNLOAD</button>
       </div>
     );
   }
