@@ -136,7 +136,7 @@ class ContactData extends Component {
       },
       true
     );
-    console.log("is form valid: ", canProceed);
+
     if (canProceed) {
       this.setState((oldState) => ({
         ...oldState,
@@ -232,7 +232,7 @@ class ContactData extends Component {
       },
       true
     );
-    console.log("is form valid: ", canProceed);
+
     return (
       <>
         <div className="ContactDataDiv">
