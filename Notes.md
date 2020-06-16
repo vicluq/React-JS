@@ -1,4 +1,4 @@
-## Fetching Data
+# Fetching Data
 
 - Use **componentDidMount** to fetch, because it will fetch the moment the State component (container) loads
 
@@ -13,7 +13,7 @@
 <br>
 <hr>
 
-## Async st
+# Async st
 
 ]ate updates
 
@@ -28,7 +28,7 @@ this.seState( previousState => {
 <br>
 <hr>
 
-## APIs with multiple page
+# APIs with multiple page
 
 - Make use of conditional render. Store each page data inside a diferent variable inside state and store a **'page' variable inside state** and create a **"counter"** that increments and decrements the value of **this.state.page**. Remember: use **setState** to do all of it. Call the fetch function and pass the page as a parameter
 
@@ -48,7 +48,7 @@ sate = {
 
 <hr>
 
-## Using Firebase
+# Using Firebase
 
 > Firebase is a google provided database client.
 
@@ -68,3 +68,70 @@ axios.post(url + '/movies.json', {})
   }
 }
 ```
+
+# Using Recoil.js
+
+### A React Official State Manager, powered by Facebook
+
+- In a Separate file create your recoil state
+- To start using recoil states, you must evolve your App with the </RecoilRoot/> H.O.C
+- To create a recoil state you must use the **atom()** function from recoil
+  > an **atom** is a particle of state. Basically: a state. you can have multiple atoms which are differened by a **'key'**
+- We must export the constant where the atom/state was created
+
+```
+import { atom } from 'recoil'
+
+const myState = atom({
+  key: "uniqueKey",
+  default: {}
+})
+
+function App () {
+  const [ stateRecoil, setStateRecoil ] = useRecoilState(mystate)
+
+  return (
+    <RecoilRoot>
+      <div className='App'>
+         ....
+      </div>
+    </RecoilRoot>
+  );
+}
+```
+
+- The default state will be the initial value
+- To read/use this state in a component, we must use the **useRecoilState(_mystate_)** function
+
+  > useRecoilState() works exactly like useState({}) hook. The difference is that is receives the constant that holds the recoil state
+
+- I can read the recoil state anywhere and set it anywhere in my App.
+- Every **component that reads the Recoil State will suffer re-render** when there are changes to it
+
+#### Using Selectors
+
+> Selectors are a piece of state that relie on an atom state information
+
+- They are used to read and return information based on an atom
+- By default they should always have the **get method** and a **key**
+- the **get** method must **return** the **selector state value**
+
+```
+import { atom, selector } from 'recoil'
+
+const namesState = atom({
+  key: "namesState",
+  default: {names: ['victoria', 'carlos', 'victor', 'joao']}
+})
+
+const filteredNames = selector({
+  key: 'filteredNames',
+  get: ({get}) => {
+    return get(namesState).filter(name => name[0] === ('v' || 'V'))
+  }
+})
+
+// Selectors are also states and should be read and written using the same hooks as the atom state, but depending on the type of the selector, it should be used with a specif hook (read-only, read&write)
+```
+
+- If you want to create a _writable Selector_, you must also set the **set method**. This type of selector will be able to give new values to atoms

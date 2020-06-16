@@ -2,11 +2,10 @@ import React from "react";
 import "./OrderCard.css";
 
 const orderCard = (props) => {
-  console.log(props);
   return (
     <div className="OrderCard">
       <h2>
-        {props.orderSequence}: {props.costumer.name}
+        {`${props.orderSequence}`}: {`${props.costumer.name}`}
       </h2>
       <p className="ingrP">
         <strong>Ingredients:</strong> <br />

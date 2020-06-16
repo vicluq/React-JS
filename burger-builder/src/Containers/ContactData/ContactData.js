@@ -35,8 +35,8 @@ class ContactData extends Component {
         valid: false,
         value: "",
       },
-      deliveryOption: "Slower=0.6",
-      finalTotal: 0,
+      deliveryOption: { value: "Slower=0.6", valid: true },
+      finalTotal: { value: 0, valid: true },
     },
     loading: false,
     success: null,
@@ -48,8 +48,8 @@ class ContactData extends Component {
     this.setState((oldState) => ({
       formData: {
         ...oldState.formData,
-        finalTotal: this.props.orderInfo.total + tax,
-        deliveryOption: this.selectRef.current.value,
+        finalTotal: { value: this.props.orderInfo.total + tax, valid: true },
+        deliveryOption: { value: this.selectRef.current.value, valid: true },
       },
     }));
   }
@@ -116,8 +116,8 @@ class ContactData extends Component {
       ...oldState,
       formData: {
         ...oldState.formData,
-        finalTotal: this.props.orderInfo.total + tax,
-        deliveryOption: del_opt,
+        finalTotal: { value: this.props.orderInfo.total + tax, valid: true },
+        deliveryOption: { value: del_opt, valid: true },
       },
     }));
   };
@@ -128,11 +128,7 @@ class ContactData extends Component {
 
     const canProceed = Object.values(this.state.formData).reduce(
       (counter, value) => {
-        if (value.valid !== undefined) {
-          return counter && value.valid;
-        } else {
-          return counter;
-        }
+        return counter && value.valid;
       },
       true
     );
@@ -145,12 +141,19 @@ class ContactData extends Component {
 
       const order = {
         costumerInfo: {
-          name: this.state.name,
-          email: this.state.email,
-          address: { ...this.state.address },
+          name: this.state.formData.name.value,
+          email: this.state.formData.email.value,
+          address: {
+            street: this.state.formData.street.value,
+            postalCode: this.state.formData.postalCode.value,
+            num: this.state.formData.num.value,
+          },
         },
-        orderInfo: { ...this.props.orderInfo, total: this.state.finalTotal },
-        deliveryOption: this.state.deliveryOption,
+        orderInfo: {
+          ...this.props.orderInfo,
+          total: this.state.formData.finalTotal.value,
+        },
+        deliveryOption: this.state.formData.deliveryOption.value,
         date: {
           day: new Date().toLocaleDateString(),
           time: new Date().toLocaleTimeString(),
@@ -224,11 +227,7 @@ class ContactData extends Component {
 
     const canProceed = Object.values(this.state.formData).reduce(
       (counter, value) => {
-        if (value.valid !== undefined) {
-          return counter && value.valid;
-        } else {
-          return counter;
-        }
+        return counter && value.valid;
       },
       true
     );
@@ -309,7 +308,9 @@ class ContactData extends Component {
                 <option value="slower=0.6">Slower: $0.6</option>
               </select>
             </fieldset>
-            <h3>Final Price: ${this.state.formData.finalTotal.toFixed(2)}</h3>
+            <h3>
+              Final Price: ${this.state.formData.finalTotal.value.toFixed(2)}
+            </h3>
             <button
               disabled={!canProceed}
               className="OrderButton"
