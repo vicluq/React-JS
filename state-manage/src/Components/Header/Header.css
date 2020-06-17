@@ -1,0 +1,65 @@
+.App-header {
+  background-color: #282c34;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: calc(1em + 5px);
+  color: white;
+}
+
+.App-header h1 {
+  margin-left: 10px;
+}
+
+.App-header nav {
+  width: 40%;
+  height: 100%;
+  margin: 0 20px 0 0;
+  display: flex;
+  align-items: center;
+}
+
+.App-header nav ul {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  /* background-color: #1590ac; */
+}
+
+.App-header nav ul li {
+  height: 100%;
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.App-header nav ul a {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  border-bottom: 4px solid transparent;
+
+  text-decoration: none;
+  color: #1590ac;
+  font-weight: bold;
+
+  transition: all 0.2s;
+}
+
+.App-header nav ul a:hover {
+  border-bottom: 10px solid #1590ac;
+}
+
+.App-header nav ul a:focus,
+.App-header nav ul a.active {
+  background-color: #1590ac;
+  color: #fff;
+}

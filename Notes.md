@@ -1,10 +1,11 @@
 # Guideline
 
-<a href='#fetching-data'>Fetching Data</a> <br>
-<a href='#async-state'>Async State</a> <br>
-<a href='#multiple-page-api'>Multiple Page API</a> <br>
-<a href='#firebase'>Using Firebase</a> <br>
-<a href='#recoil'>Recoil.js</a> <br>
+- <a href='#fetching-data'>Fetching Data</a> <br>
+- <a href='#async-state'>Async State</a> <br>
+- <a href='#multiple-page-api'>Multiple Page API</a> <br>
+- <a href='#firebase'>Using Firebase</a> <br>
+- <a href='#recoil'>Recoil.js</a> <br>
+  - <a href='#recoil-selectors'>Recoil.js - Selectors</a> <br>
 
 <hr>
 
@@ -118,9 +119,9 @@ function App () {
 - I can read the recoil state anywhere and set it anywhere in my App.
 - Every **component that reads the Recoil State will suffer re-render** when there are changes to it
 
-#### Using Selectors
+<h4 id='recoil-selectors'>Using Selectors</h4>
 
-> Selectors are a piece of state that relie on an atom state information
+> Selectors are a piece of state that relie on an atom state information, hus meaning that they have their value changed if an atom's state changes, which the selector 'depends' on, the selector will also change
 
 - They are used to read and return information based on an atom
 - By default they should always have the **get method** and a **key**
@@ -134,10 +135,23 @@ const namesState = atom({
   default: {names: ['victoria', 'carlos', 'victor', 'joao']}
 })
 
+const filterForSelector = atom({
+  key: 'filterForSelector',
+  default: 'all'
+})
+
 const filteredNames = selector({
   key: 'filteredNames',
   get: ({get}) => {
-    return get(namesState).filter(name => name[0] === ('v' || 'V'))
+
+    const filter = get(filterForSelector)
+
+    if(filter !== 'all' && (filter >= 'a' && filter <= 'z')) {
+      return get(namesState).filter(name => name[0] === (filter.toLowerCase() || filter.toUpperCase()))
+    }
+    else {
+      return get(namesState)
+    }
   }
 })
 
@@ -145,3 +159,7 @@ const filteredNames = selector({
 ```
 
 - If you want to create a _writable Selector_, you must also set the **set method**. This type of selector will be able to give new values to atoms
+
+- Creating a filter state to set the filter in a component is a very good method to filter elements from state
+  - Use the filter value as a state for the component, and use the value of the selector (filtered state) as a second state
+  - The selector will have it's value updated if the filter is set to other
