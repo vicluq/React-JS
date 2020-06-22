@@ -17,6 +17,7 @@ export const postsIds = atom({
   default: "all",
 });
 
+// the returned  value from the get method of selectors corresponds to the value os the selector
 export const filteredPosts = selector({
   key: "filteredPosts",
   get: ({ get }) => {

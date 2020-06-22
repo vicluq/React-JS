@@ -4,8 +4,8 @@ import { useRecoilValue, useRecoilState } from "recoil";
 import { filteredPosts, postsIds } from "../../../Services/Recoil";
 
 const FullPost = (props) => {
-  const [id, setId] = useRecoilState(postsIds);
-  const [post] = useRecoilValue(filteredPosts);
+  const [id, setId] = useRecoilState(postsIds); //atom to receive an id for posts
+  const [post] = useRecoilValue(filteredPosts); //selector that uses all posts atom and id atom to filter
 
   useEffect(() => {
     setId(Number(props.match.params.postId));
