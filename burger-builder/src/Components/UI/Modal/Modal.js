@@ -13,7 +13,7 @@ const modal = (props) => {
           border: props.orderProcess ? "none" : "1px solid #ccc",
           boxShadow: props.orderProcess ? "none" : "1px 1px 1px black",
         }}
-        className="Modal"
+        className={`Modal ${props.type}`}
       >
         {props.children}
       </div>

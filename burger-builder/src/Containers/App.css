@@ -1,3 +1,40 @@
 .App {
   height: 100vh;
 }
+
+.Timeout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Timeout h2 {
+  color: orange;
+}
+
+.Timeout button {
+  margin: 0 10px;
+  border: 1.5px solid #fca70b;
+  padding: 6px 10px;
+  background-color: transparent;
+  /* box-shadow: 2px 3px 8px #00000040; */
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.1s ease-in;
+  outline: none;
+}
+
+.Timeout button:hover {
+  background-color: #fca70b;
+}
+
+.Timeout button a {
+  padding: 6px 10px;
+  height: 100%;
+  width: 100%;
+  color: rgb(82, 87, 87);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}

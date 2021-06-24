@@ -1,0 +1,20 @@
+.Modal {
+  background-color: #fff;
+  border-radius: 10px;
+  height: 200px;
+  width: 400px;
+  z-index: 900;
+  position: fixed;
+  left: calc(50% - 200px);
+  top: calc(50% - 150px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Modal.Showing {
+  transform: translateY(0);
+  opacity: 1;
+}

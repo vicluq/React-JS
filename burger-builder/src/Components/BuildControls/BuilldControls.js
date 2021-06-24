@@ -16,40 +16,26 @@ const buildControls = (props) => {
       <p className="totalPriceDisplay">
         Total Price: <strong>${props.totalPrice.toFixed(2)}</strong>
       </p>
-      <Control
-        ingrName="Salad"
-        type={"salad"}
-        count={props.ingredientsCount.salad}
-        add={props.add}
-        remove={props.remove}
-      />
-      <Control
-        ingrName="Meat"
-        type={"meat"}
-        count={props.ingredientsCount.meat}
-        add={props.add}
-        remove={props.remove}
-      />
-      <Control
-        ingrName="Cheese"
-        type={"cheese"}
-        count={props.ingredientsCount.cheese}
-        add={props.add}
-        remove={props.remove}
-      />
-      <Control
-        ingrName="Bacon"
-        type={"bacon"}
-        count={props.ingredientsCount.bacon}
-        add={props.add}
-        remove={props.remove}
-      />
+
+      {Object.entries(props.ingredientsCount).map((ingr) => (
+        <Control
+          key={ingr[1] + ingr[0]}
+          ingrName={ingr[0]
+            .split("")
+            .map((char, index) => (index === 0 ? char.toUpperCase() : char))
+            .join("")}
+          type={ingr[0]}
+          count={ingr[1]}
+          add={props.add}
+          remove={props.remove}
+        />
+      ))}
       <button
         disabled={areAllZero}
         className="OrderButton"
         onClick={props.purchase}
       >
-        ORDER NOW!
+        {props.isAuth ? "ORDER NOW!" : "SIGN UP TO ORDER!"}
       </button>
     </div>
   );

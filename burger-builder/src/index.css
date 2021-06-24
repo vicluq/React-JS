@@ -3,3 +3,9 @@ body {
   font-family: "Open Sans", "sans-seriff";
   height: 100vh;
 }
+
+#root {
+  margin: 0;
+  font-family: "Open Sans", "sans-seriff";
+  height: 100vh;
+}

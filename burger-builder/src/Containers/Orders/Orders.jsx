@@ -1,66 +1,54 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
+import { connect } from "react-redux";
 import "./Orders.css";
-import storeOrder from "../../services/store-order";
 
-import OrderCard from "../../Components/Order/OrderCard/OrderCard";
 import Spinner from "../../Components/UI/Spinner/Spinner";
+import AllOrders from "./AllOrders/AllOrders";
+import {
+  GET_ORDERS,
+  SET_LOADING,
+  DELIVER,
+} from "../../services/redux-store/actions/orders";
 
-class Orders extends Component {
-  state = {
-    orders: [],
-    noOrders: false,
-    loading: false,
-  };
+function Orders(props) {
+  useEffect(() => {
+    props.setLoading(true);
+    props.fetchOrders(props.tokenId, props.userId);
+  }, []);
 
-  componentDidMount() {
-    this.setState({ loading: true });
-    storeOrder
-      .get("/orders.json")
-      .then(({ data }) => {
-        const orders = data ? data : [];
-        const noOrders = data ? false : true;
-        this.setState((oldState) => ({
-          ...oldState,
-          orders: Object.values(orders),
-          noOrders: noOrders,
-          loading: false,
-        }));
-      })
-      .catch((err) => {
-        console.log(err);
-        this.setState({ loading: false });
-      });
-  }
-
-  render() {
-    const noOrdersWarning = this.state.noOrders ? (
+  const error = <h1>Something Went Wrong when Fetching the orders...</h1>;
+  const orderList =
+    props.orders.length > 0 ? (
+      <AllOrders
+        orders={props.orders}
+        deliverOrder={props.deliverOrder}
+        tokenId={props.tokenId}
+      />
+    ) : (
       <h1>No Orders Have Been Placed So Far!</h1>
-    ) : null;
-
-    return (
-      <>
-        {this.state.loading ? (
-          <Spinner />
-        ) : (
-          <div className="AllOrders">
-            {this.state.orders.length > 0
-              ? this.state.orders.map((order, index) => (
-                  <OrderCard
-                    key={order.date.time}
-                    orderSequence={index + 1}
-                    ingr={order.orderInfo.ingredients}
-                    costumer={order.costumerInfo}
-                    price={order.orderInfo.total}
-                    date={order.date}
-                  />
-                ))
-              : null}
-            {noOrdersWarning}
-          </div>
-        )}
-      </>
     );
-  }
+
+  const content = props.error ? error : orderList;
+
+  return <>{props.loading ? <Spinner /> : content}</>;
 }
 
-export default Orders;
+const mapPropsFromStore = (store) => {
+  return {
+    orders: store.ordersRed.orders,
+    loading: store.ordersRed.loading,
+    error: store.ordersRed.error,
+    tokenId: store.authRed.user.token,
+    userId: store.authRed.user.userID,
+  };
+};
+
+const mapActions = (dispatch) => {
+  return {
+    fetchOrders: (token, userId) => dispatch(GET_ORDERS(token, userId)),
+    setLoading: (state) => dispatch(SET_LOADING({ loading: state })),
+    deliverOrder: (id, token) => dispatch(DELIVER(id, token)),
+  };
+};
+
+export default connect(mapPropsFromStore, mapActions)(Orders);

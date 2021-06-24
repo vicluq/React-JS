@@ -4,12 +4,10 @@ import Website from "./Containers/Website/Website";
 
 import "./App.css";
 
-function App() {
+function App(props) {
   return (
     <BrowserRouter>
-      <div className="App">
-        <Website />
-      </div>
+      <div className="App">{props.isActive ? <Website /> : null}</div>
     </BrowserRouter>
   );
 }

@@ -1,125 +1,94 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import { connect } from "react-redux";
+import * as actions from "../../services/redux-store/actions/burger-builder";
+
 import Burger from "../../Components/Burger/Burger";
 import BuildControls from "../../Components/BuildControls/BuilldControls";
 import Modal from "../../Components/UI/Modal/Modal";
 import OrderSummary from "./../../Components/OrderSummary/OrderSummary";
-import storeOrder from "../../services/store-order";
 import Spinner from "../../Components/UI/Spinner/Spinner";
 
-class BurgerBuilder extends Component {
-  state = {
-    ingredients: {
-      salad: 0,
-      cheese: 0,
-      bacon: 0,
-      meat: 0,
-    },
-    prices: {}, //prices fetched from backend
-    totalPrice: 3.25, //sum the rest
-    orderNow: false,
-    orderSuccess: null,
-    orderProcess: false,
-    error: false,
+function BurgerBuilder(props) {
+  const [orderNow, setOrderNow] = useState(false);
+  const [orderProcess, setOrderProcess] = useState(false);
+  console.log();
+  useEffect(() => {
+    props.resetBurger();
+  }, []);
+
+  const purschaseHandler = () => {
+    if (props.isAuth) {
+      setOrderNow(true);
+    } else {
+      props.history.push("/signup");
+      props.setOrderProgress();
+    }
   };
 
-  componentDidMount = () => {
-    storeOrder
-      .get("/ingredientsPrices.json")
-      .then(({ data }) => {
-        this.setState((oldState) => ({ ...oldState, prices: data }));
-      })
-      .catch((err) => {
-        this.setState((oldState) => ({ ...oldState, error: true }));
-      });
+  const closeModalHandler = () => {
+    setOrderNow(false);
   };
 
-  addIngrHandler = (type) => {
-    const newAddAmount = this.state.ingredients[type] + 1;
-    this.setState((oldState) => ({
-      ...oldState,
-      ingredients: {
-        ...oldState.ingredients,
-        [type]: newAddAmount,
-      },
-      totalPrice: oldState.totalPrice + this.state.prices[type],
-    }));
+  const purchaseContinued = () => {
+    props.history.push("/checkout");
   };
 
-  removeIngrHandler = (type) => {
-    const newAmount =
-      this.state.ingredients[type] === 0 ? 0 : this.state.ingredients[type] - 1;
-
-    this.setState((oldState) => ({
-      ...oldState,
-      ingredients: {
-        ...oldState.ingredients,
-        [type]: newAmount,
-      },
-      totalPrice: oldState.totalPrice - this.state.prices[type],
-    }));
-  };
-
-  purschaseHandler = () => {
-    this.setState((oldState) => ({ ...oldState, orderNow: true }));
-  };
-
-  closeModalHandler = () => {
-    this.setState((oldState) => ({ ...oldState, orderNow: false }));
-  };
-
-  purchaseContinued = () => {
-    // this.setState({ orderProcess: true });
-    const order_summary = {
-      ingredients: this.state.ingredients,
-      total: this.state.totalPrice,
-    };
-    this.props.history.push(
-      `/checkout?total=${this.state.totalPrice}&salad=${this.state.ingredients.salad}&cheese=${this.state.ingredients.cheese}&bacon=${this.state.ingredients.bacon}&meat=${this.state.ingredients.meat}`
-    );
-  };
-
-  render() {
-    return (
-      <Fragment>
-        <Burger ingredients={this.state.ingredients} />
-        <BuildControls
-          add={this.addIngrHandler}
-          remove={this.removeIngrHandler}
-          ingredientsCount={this.state.ingredients}
-          totalPrice={this.state.totalPrice}
-          purchase={this.purschaseHandler}
-        />
-        <Modal
-          showing={this.state.orderNow}
-          closeModal={this.closeModalHandler}
-          orderProcess={this.state.orderProcess}
-        >
-          {this.state.orderProcess ? (
-            <Spinner />
-          ) : (
-            <OrderSummary
-              ingredients={this.state.ingredients}
-              price={this.state.totalPrice.toFixed(2)}
-              cancelOrder={this.closeModalHandler}
-              purchaseContinued={this.purchaseContinued}
-            />
-          )}
-        </Modal>
-      </Fragment>
-    );
-  }
+  return (
+    <Fragment>
+      <Burger ingredients={props.ingredients} />
+      <BuildControls
+        add={props.addIngrHandler}
+        remove={props.removeIngrHandler}
+        ingredientsCount={props.ingredients}
+        totalPrice={props.totalPrice}
+        purchase={purschaseHandler}
+        isAuth={props.isAuth}
+      />
+      <Modal
+        showing={orderNow}
+        closeModal={closeModalHandler}
+        orderProcess={orderProcess}
+      >
+        {orderProcess ? (
+          <Spinner />
+        ) : (
+          <OrderSummary
+            ingredients={props.ingredients}
+            price={props.totalPrice.toFixed(2)}
+            cancelOrder={closeModalHandler}
+            purchaseContinued={purchaseContinued}
+          />
+        )}
+      </Modal>
+    </Fragment>
+  );
 }
 
-export default BurgerBuilder;
+function mapPropsFromStore(store) {
+  return {
+    ingredients: store.orderInfoRed.ingredients,
+    totalPrice: store.orderInfoRed.totalPrice,
+    isAuth: store.authRed.auth,
+  };
+}
 
-// storeOrder
-// .post("/orders.json", order_summary)
-// .then((res) => {
-//   this.setState({ orderProcess: false, orderNow: false });
-//   this.props.history.push("/checkout/" + res.data.name);
-// })
-// .catch((err) => {
-//   this.setState({ orderProcess: false, orderNow: false });
+function mapActions(dispatch) {
+  return {
+    addIngrHandler: (ingr) =>
+      dispatch({
+        type: actions.SET_INGREDIENTS,
+        ingrType: ingr,
+      }),
 
-//   //display error
-// });
+    removeIngrHandler: (ingr) =>
+      dispatch({
+        type: actions.REMOVE_INGREDIENTS,
+        ingrType: ingr,
+      }),
+
+    resetBurger: () => dispatch(actions.RESET_BURGER()),
+    setOrderProgress: () => dispatch(actions.SIGNUP_ORDER_PROGRESS()),
+  };
+}
+
+export default connect(mapPropsFromStore, mapActions)(BurgerBuilder);

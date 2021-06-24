@@ -1,0 +1,87 @@
+.Auth-Form {
+  margin: auto;
+  height: 500px;
+  width: 500px;
+}
+
+.Auth-Form form {
+  height: 100%;
+  width: 90%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Auth-Form form .Title {
+  margin-bottom: 20px;
+  height: 40px;
+  padding: 4px 8px;
+  width: max-content;
+  background-color: orange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+
+  box-shadow: 2px 3px 8px #00000040;
+}
+
+.Auth-Form form .Title h2 {
+  margin: 0;
+  color: #fff;
+}
+
+.Auth-Form form input {
+  outline: none;
+  margin: 0 auto 25px auto;
+  width: 60%;
+  padding: 6px 10px;
+  border-style: solid;
+  border-width: 1.5px;
+  border-radius: 3px;
+
+  transition: all 0.2s ease-in;
+}
+
+.Auth-Form form button {
+  padding: 6px 10px;
+  background-color: rgb(252, 167, 11);
+  border: 0px solid;
+  color: rgb(247, 248, 248);
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 2px 3px 8px #00000040;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.1s ease-in;
+}
+.Auth-Form form button:hover {
+  transform: scale(1.1);
+  border-radius: 0px;
+  box-shadow: none;
+}
+.Auth-Form form button:disabled {
+  background-color: rgb(212, 145, 21);
+  color: rgb(203, 211, 214);
+  cursor: not-allowed;
+}
+
+.Signup-Form .Login-Message {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.Signup-Form .Login-Message p {
+  font-size: 18px;
+}
+.Signup-Form .Login-Message a {
+  text-decoration: none;
+  color: orange;
+}
+.Signup-Form .Login-Message a:hover {
+  text-decoration: underline;
+}

@@ -53,6 +53,7 @@
     border-bottom: 4px solid transparent;
     width: auto;
   }
+  .LogoutBut:hover,
   .NavItem a:hover,
   .NavItem a.active,
   .NavItem a:active {
@@ -61,4 +62,14 @@
     color: white;
     width: auto;
   }
+}
+
+.LogoutBut {
+  background-color: transparent;
+  height: 100%;
+  padding: 5px 10px;
+  border: none;
+  color: #fff;
+  font-size: 1.05rem;
+  cursor: pointer;
 }

@@ -5,7 +5,7 @@ const orderCard = (props) => {
   return (
     <div className="OrderCard">
       <h2>
-        {`${props.orderSequence}`}: {`${props.costumer.name}`}
+        {`${props.orderSequence}`}: {`${props.order.name.value}`}
       </h2>
       <p className="ingrP">
         <strong>Ingredients:</strong> <br />
@@ -21,7 +21,9 @@ const orderCard = (props) => {
         <strong>Date: </strong>
         {props.date.day} at {props.date.time}
       </p>
-      <button /*onClick={""}*/ className="DeliverButton">Deliver</button>
+      <button onClick={props.deliver} className="DeliverButton">
+        Deliver
+      </button>
     </div>
   );
 };

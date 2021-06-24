@@ -1,0 +1,96 @@
+.UseState-Main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.UseState-Main .PersonForm form {
+  width: 400px;
+  margin: 15px auto;
+  background-color: rgb(248, 251, 251);
+  padding: 10px;
+  border-radius: 4px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 2px 3px 9px 2px rgba(0, 0, 0, 0.22);
+}
+
+.UseState-Main .PersonForm form .form-control {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.UseState-Main .PersonForm form .form-control label {
+  width: 100%;
+  margin-bottom: 5px;
+
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #0b161a;
+
+  border-bottom: 1.5px solid #0b161a;
+  text-align: start;
+}
+
+.UseState-Main .PersonForm form .form-control input {
+  width: 100%;
+  padding: 3px 7px;
+  border: 1.5px solid yellowgreen;
+}
+
+.UseState-Main .PersonForm form button {
+  width: 150px;
+  padding: 4px 6px;
+  background-color: transparent;
+  border: 1.5px solid #0b161a;
+  font-weight: 600;
+  color: #0b161a;
+  cursor: pointer;
+}
+
+.UseState-Main .PersonForm form button:hover {
+  background-color: #0b161a;
+  color: #fff;
+}
+
+/* Search Box */
+
+.SearchBox {
+  width: 400px;
+  margin: 15px auto;
+  background-color: rgb(248, 251, 251);
+  padding: 10px;
+  border-radius: 4px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 2px 3px 9px 2px rgba(0, 0, 0, 0.22);
+}
+
+.SearchBox label {
+  width: 100%;
+  margin-bottom: 5px;
+
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #0b161a;
+
+  border-bottom: 1.5px solid #0b161a;
+  text-align: start;
+}
+
+.SearchBox input {
+  width: 100%;
+  padding: 3px 7px;
+  border: 1.5px solid yellowgreen;
+}

@@ -1,18 +1,39 @@
 import React, { Suspense, lazy } from "react";
 import { RecoilRoot } from "recoil";
 
-import { Route, Switch } from "react-router-dom";
-import { createStore } from "redux";
-import { Provider } from "react-redux";
-
-import root_reducer from "../../Services/Store/reducers";
-
 import "./App.css";
 import Header from "../../Components/Header/Header";
+
+import { Route, Switch } from "react-router-dom";
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+
+import getInputReducer from "../../Services/Store/reducers/get_input_values";
+import counterReducer from "../../Services/Store/reducers/counter";
+
+const middleware = function (store) {
+  return function (next) {
+    return function (action) {
+      console.log(`Action Dispatched >> ${action.type}`);
+      const nextResult = next(action);
+      console.log(nextResult);
+      return nextResult;
+    };
+  };
+};
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const reduxStore = createStore(
+  combineReducers({
+    countRed: counterReducer,
+    inputRed: getInputReducer,
+  }),
+  composeEnhancers(applyMiddleware(middleware, thunk))
+);
+
 const RecoilApp = lazy(() => import("../Recoil/RecoilApp"));
 const ReduxApp = lazy(() => import("../Redux/ReduxApp"));
-
-const reduxStore = createStore(root_reducer);
 
 function App() {
   return (

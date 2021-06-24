@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./Course.css";
 
 const Course = (props) => (
@@ -9,7 +9,7 @@ const Course = (props) => (
       <p className="price">
         <strong>${props.price}</strong>
       </p>
-      <p className="teacher">{props.teacher}</p>
+      {props.teacher ? <p className="teacher">{props.teacher}</p> : null}
     </NavLink>
   </div>
 );

@@ -12,8 +12,9 @@
 }
 
 .BuildControl {
+  width: 25%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   margin: 5px 0;
 }

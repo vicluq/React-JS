@@ -1,0 +1,24 @@
+.Product-List {
+  margin: 40px auto;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Product-List h2 {
+  margin-bottom: 20px;
+}
+
+.Product-List ul {
+  width: 80%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.Product-List ul li {
+  margin-top: 40px;
+  width: 200px;
+  list-style: none;
+}

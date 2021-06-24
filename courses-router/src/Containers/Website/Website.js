@@ -24,7 +24,6 @@ class Website extends Component {
             />
             <Route path="/courses" component={Courses} />
             <Route path="/users" render={() => <h2>USERS PAGE</h2>} />
-            <Redirect from="/all-courses" to="/courses" />
             <Redirect from="/" to="/courses" />
           </Switch>
         </div>
