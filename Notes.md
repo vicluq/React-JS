@@ -158,6 +158,12 @@ const filteredNames = selector({
 // Selectors are also states and should be read and written using the same hooks as the atom state, but depending on the type of the selector, it should be used with a specif hook (read-only, read&write)
 ```
 
+<iframe
+  src="https://carbon.now.sh/embed/"
+  style="transform:scale(0.7); width:1024px; height:473px; border:0; overflow:hidden;"
+  sandbox="allow-scripts allow-same-origin">
+</iframe>
+
 - If you want to create a _writable Selector_, you must also set the **set method**. This type of selector will be able to give new values to atoms
 
 - Creating a filter state to set the filter in a component is a very good method to filter elements from state
